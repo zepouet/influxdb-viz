@@ -19,3 +19,14 @@ TODO
 ## Helpful Links
 
 TODO
+
+## ROADMAP
+### Project
+- [x] Bootstrap the project :-)
+- [ ] Documentation README.IO
+- [ ] Documentation GitHub
+
+### Data Visualization
+- [ ] Tree visualization 
+- [ ] Bubble visualization
+
