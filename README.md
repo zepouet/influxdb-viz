@@ -1,4 +1,4 @@
-# InfluxDB-Viz [![Circle CI](https://circleci.com/gh/zepouet/influxdb-viz.svg?style=shield)](https://circleci.com/gh/zepouet/influxdb-viz)
+# InfluxDB-Viz [![Circle CI](https://circleci.com/gh/zepouet/influxdb-viz.svg)](https://circleci.com/gh/zepouet/influxdb-viz)
 
 ## A Data Visualization WebApplication for InfluxDB
 
