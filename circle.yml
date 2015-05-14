@@ -3,6 +3,6 @@ machine:
     - docker
 test:
   override:
-    - docker run -d -p 8002:8083 -p 8003:8086 influxdb:0.9.0-rc; sleep 10
+    - docker run -d -p 8002:8083 -p 8003:8086 tutum/influxdb:staging-0.9.0-rc; sleep 10
     - curl --retry 10 --retry-delay 5 -L -I -f http://localhost:8002/
     - curl --retry 10 --retry-delay 5 -L -I -f http://localhost:8003/ping
