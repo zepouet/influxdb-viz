@@ -16,6 +16,7 @@ const (
 	STATIC_JS        = STATIC + "js"
 	STATIC_CSS       = STATIC + "css"
 	STATIC_IMAGES    = STATIC + "images"
+	STATIC_JSON    = STATIC + "json"
 )
 
 func main() {
@@ -25,6 +26,7 @@ func main() {
 	router.Static("/images", STATIC_IMAGES)
 	router.Static("/js", STATIC_JS)
 	router.Static("/css", STATIC_CSS)
+	router.Static("/json", STATIC_JSON)
 
 	// index page
 	router.GET("/", func(c *gin.Context) {
