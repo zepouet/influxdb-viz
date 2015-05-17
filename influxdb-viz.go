@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"net/http"
 	//"github.com/spf13/viper"
 )
 
@@ -16,7 +16,7 @@ const (
 	STATIC_JS        = STATIC + "js"
 	STATIC_CSS       = STATIC + "css"
 	STATIC_IMAGES    = STATIC + "images"
-	STATIC_JSON    = STATIC + "json"
+	STATIC_JSON      = STATIC + "json"
 )
 
 func main() {
