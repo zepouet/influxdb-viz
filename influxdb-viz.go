@@ -2,17 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"html/template"
-	"net/http"
-	//"github.com/spf13/viper"
 	"github.com/influxdb/influxdb-viz/controllers"
 )
 
 const (
-	TEMPLATES        = "views/"
-	TEMPLATE_MAIN    = TEMPLATES + "main.tmpl"
-	TEMPLATE_INDEX   = TEMPLATES + "index.tmpl"
-	TEMPLATE_BUBBLES = TEMPLATES + "bubbles.tmpl"
 	STATIC           = "static/"
 	STATIC_JS        = STATIC + "js"
 	STATIC_CSS       = STATIC + "css"
@@ -31,13 +24,11 @@ func main() {
 	router.Static("/json", STATIC_JSON)
 
 	// index page
-	router.GET("/", func(c *gin.Context) {
-		obj := gin.H{"title": "Index"}
-		router.SetHTMLTemplate(template.Must(template.ParseFiles(TEMPLATE_MAIN, TEMPLATE_INDEX)))
-		c.HTML(http.StatusOK, "base", obj)
-	})
+	homepageController := &controllers.HomepageController{}
+	homepageController.Run(router)
 
-	bubbleController := &bubbles.BubbleController{}
+	// Add routes for bubbles
+	bubbleController := &controllers.BubbleController{}
 	bubbleController.Run(router)
 
 	router.Run(":8080")

@@ -1,4 +1,4 @@
-package bubbles
+package controllers
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,7 +7,6 @@ import (
 )
 
 const (
-	TEMPLATES        = "views/"
 	TEMPLATE_MAIN    = TEMPLATES + "main.tmpl"
 	TEMPLATE_BUBBLES = TEMPLATES + "bubbles.tmpl"
 )
