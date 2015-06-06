@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	TEMPLATE_MAIN    =  "templates/main.tmpl"
-	TEMPLATE_BUBBLES = "templates/bubbles.tmpl"
+	TEMPLATES        = "views/"
+	TEMPLATE_MAIN    = TEMPLATES + "main.tmpl"
+	TEMPLATE_BUBBLES = TEMPLATES + "bubbles.tmpl"
 )
 
 type Config struct {
@@ -18,12 +19,10 @@ type Config struct {
 	InfluxDbPassword string
 }
 
-type BubbleService struct {
+type BubbleController struct {
 }
 
-func (b *BubbleService) Run(config Config) {
-	router := gin.Default()
-
+func (b *BubbleController) Run(router *gin.Engine) {
 	// bubbles page
 	router.GET("/bubbles", func(c *gin.Context) {
 		obj := gin.H{"title": "Bubbles"}

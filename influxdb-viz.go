@@ -5,10 +5,11 @@ import (
 	"html/template"
 	"net/http"
 	//"github.com/spf13/viper"
+	"github.com/influxdb/influxdb-viz/controllers"
 )
 
 const (
-	TEMPLATES        = "templates/"
+	TEMPLATES        = "views/"
 	TEMPLATE_MAIN    = TEMPLATES + "main.tmpl"
 	TEMPLATE_INDEX   = TEMPLATES + "index.tmpl"
 	TEMPLATE_BUBBLES = TEMPLATES + "bubbles.tmpl"
@@ -20,6 +21,7 @@ const (
 )
 
 func main() {
+
 	router := gin.Default()
 
 	// create routes for all static files
@@ -35,12 +37,8 @@ func main() {
 		c.HTML(http.StatusOK, "base", obj)
 	})
 
-	// bubbles page
-	router.GET("/bubbles", func(c *gin.Context) {
-		obj := gin.H{"title": "Bubbles"}
-		router.SetHTMLTemplate(template.Must(template.ParseFiles(TEMPLATE_MAIN, TEMPLATE_BUBBLES)))
-		c.HTML(http.StatusOK, "base", obj)
-	})
+	bubbleController := &bubbles.BubbleController{}
+	bubbleController.Run(router)
 
 	router.Run(":8080")
 }

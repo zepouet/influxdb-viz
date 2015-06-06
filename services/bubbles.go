@@ -6,7 +6,7 @@ import (
 )
 
 type BubbleResource struct {
-	client client.Client
+	clientInflux client.Client
 }
 
 func (br *BubbleResource) listSeries(c *gin.Context) {
