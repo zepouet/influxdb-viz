@@ -1,8 +1,8 @@
-package bubbles
+package models
 
 type Bubble struct {
-	name     string  `json:"name"`
-	size     int     `json:"size"`
-	//children []Bubble `json:"children"`
+	Name     string  `json:"name"`
+	Size     int     `json:"size"`
+	Children []Bubble `json:"children"`
 }
 

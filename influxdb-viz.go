@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/influxdb/influxdb-viz/controllers"
+	"github.com/influxdb/influxdb-viz/configuration"
 )
 
 const (
@@ -23,12 +24,20 @@ func main() {
 	router.Static("/css", STATIC_CSS)
 	router.Static("/json", STATIC_JSON)
 
-	// index page
+	influxConfig := &configuration.InfluxConfig{
+		InfluxDbHost:"192.168.59.103",
+		InfluxDbPort:8086,
+		InfluxDbPassword:"root",
+		InfluxDbUser:"root",
+	}
+	influxConfig.Verify()
+
+	// add route for index page
 	homepageController := &controllers.HomepageController{}
 	homepageController.Run(router)
 
-	// Add routes for bubbles
-	bubbleController := &controllers.BubbleController{}
+	// add routes for bubbles
+	bubbleController := &controllers.BubbleController{InfluxConfig:*influxConfig}
 	bubbleController.Run(router)
 
 	router.Run(":8080")
