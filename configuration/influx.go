@@ -26,7 +26,7 @@ func (config *InfluxConfig) Verify() {
 
 	dur, ver, err := con.Ping()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Impossible to ping InfluxDB : %s", err)
 	}
 	log.Printf("Happy to be connected to InfluxDB! %v, %s", dur, ver)
 }
