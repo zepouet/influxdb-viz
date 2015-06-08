@@ -28,7 +28,7 @@ func (br *BubblesService) ListAll() models.Bubble {
 	}
 
 	q := client.Query{
-		Command:  "list series",
+		Command:  "show series",
 		Database: "demo",
 	}
 	response, err := con.Query(q)

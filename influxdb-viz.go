@@ -24,7 +24,7 @@ func main() {
 	router.Static("/css", STATIC_CSS)
 	router.Static("/json", STATIC_JSON)
 
-	influxConfig := &configuration.InfluxConfig{
+	influxConfig := configuration.InfluxConfig{
 		InfluxDbHost:"192.168.59.103",
 		InfluxDbPort:8086,
 		InfluxDbPassword:"root",
@@ -37,7 +37,7 @@ func main() {
 	homepageController.Run(router)
 
 	// add routes for bubbles
-	bubbleController := &controllers.BubbleController{InfluxConfig:*influxConfig}
+	bubbleController := &controllers.BubbleController{influxConfig}
 	bubbleController.Run(router)
 
 	router.Run(":8080")
