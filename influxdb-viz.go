@@ -11,6 +11,7 @@ const (
 	STATIC_JS        = STATIC + "js"
 	STATIC_CSS       = STATIC + "css"
 	STATIC_IMAGES    = STATIC + "images"
+	STATIC_TAGS    	 = STATIC + "tags"
 	STATIC_JSON      = STATIC + "json"
 )
 
@@ -23,6 +24,7 @@ func main() {
 	router.Static("/js", STATIC_JS)
 	router.Static("/css", STATIC_CSS)
 	router.Static("/json", STATIC_JSON)
+	router.Static("/tags", STATIC_TAGS)
 
 	influxConfig := configuration.InfluxConfig{
 		InfluxDbHost:"192.168.59.103",

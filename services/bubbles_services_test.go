@@ -60,14 +60,13 @@ func TestSpec(t *testing.T) {
 				So(err, ShouldBeNil)
 
 				Convey("Select the series", func() {
-					con, err := client.NewClient(client.Config{URL: *host})
 					q := client.Query{
 						Command:  "select count(value) from shapes",
 						Database: "BumbeBeeTuna",
 					}
 					response, err := con.Query(q);
 					if err == nil && response.Error() == nil {
-						//fmt.Println(response.Results.UnmarshalJSON())
+						fmt.Println(len(response.Results))
 					}
 				})
 
@@ -76,14 +75,7 @@ func TestSpec(t *testing.T) {
 		})
 
 		Reset(func() {
-			q := client.Query{
-				Command:  "delete from shapes",
-				Database: "BumbeBeeTuna",
-			}
-			response, err := con.Query(q);
-			if err == nil && response.Error() == nil {
-				fmt.Println(response.Results)
-			}
+
 		})
 
 	})
