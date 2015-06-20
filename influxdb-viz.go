@@ -26,12 +26,8 @@ func main() {
 	router.Static("/json", STATIC_JSON)
 	router.Static("/tags", STATIC_TAGS)
 
-	influxConfig := configuration.InfluxConfig{
-		InfluxDbHost:"192.168.59.103",
-		InfluxDbPort:8086,
-		InfluxDbPassword:"root",
-		InfluxDbUser:"root",
-	}
+	influxConfig := &configuration.InfluxConfig{}
+	influxConfig.Init()
 	influxConfig.Verify()
 
 	// add route for index page
@@ -39,7 +35,7 @@ func main() {
 	homepageController.Run(router)
 
 	// add routes for bubbles
-	bubbleController := &controllers.BubbleController{influxConfig}
+	bubbleController := &controllers.BubbleController{*influxConfig}
 	bubbleController.Run(router)
 
 	router.Run(":8080")

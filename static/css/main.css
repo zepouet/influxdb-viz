@@ -1,0 +1,12 @@
+
+.brand-logo {
+    background-image: url("/images/influxdb-light-24px.png");
+    background-repeat: no-repeat;
+    height:300px;
+    width:300px;
+    margin: 20px;
+}
+
+.nav-wrapper {
+    background-color: #333333;
+}

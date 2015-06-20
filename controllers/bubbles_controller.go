@@ -8,8 +8,7 @@ import (
 )
 
 const (
-	TEMPLATE_MAIN    = TEMPLATES + "main.tmpl"
-	TEMPLATE_BUBBLES = TEMPLATES + "bubbles.tmpl"
+	TEMPLATE_BUBBLES = "views/bubbles.tmpl"
 )
 
 type BubbleController struct {

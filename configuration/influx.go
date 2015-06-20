@@ -5,6 +5,7 @@ import (
 	"log"
 	"fmt"
 	"github.com/influxdb/influxdb/client"
+	//"github.com/spf13/viper"
 )
 
 type InfluxConfig struct {
@@ -12,6 +13,23 @@ type InfluxConfig struct {
 	InfluxDbPort int
 	InfluxDbUser string
 	InfluxDbPassword string
+}
+
+func (Config *InfluxConfig) Init() {
+
+	viper.SetConfigName("config")
+	viper.AddConfigPath("/etc/init.d/influxdb-viz/")   // path to look for the config file in
+	viper.AddConfigPath("$HOME/.influxdb-viz")  // call multiple times to add many search paths
+	err := viper.ReadInConfig() // Find and read the config file
+	if err != nil { // Handle errors reading the config file
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+
+	Config.InfluxDbHost = "localhost"
+	Config.InfluxDbPort = 8086
+	Config.InfluxDbPassword = "root"
+	Config.InfluxDbUser = "root"
+
 }
 
 func (config *InfluxConfig) Verify() {
@@ -30,4 +48,5 @@ func (config *InfluxConfig) Verify() {
 	}
 	log.Printf("Happy to be connected to InfluxDB! %v, %s", dur, ver)
 }
+
 

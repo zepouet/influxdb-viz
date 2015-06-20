@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	TEMPLATES        = "views/"
-	TEMPLATE_INDEX    = TEMPLATES + "index.tmpl"
+	TEMPLATE_INDEX   = "templates/index.tmpl"
+	TEMPLATE_MAIN    = "templates/main.tmpl"
 )
 
 type HomepageController struct {
