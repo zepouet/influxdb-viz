@@ -24,6 +24,7 @@ package services
 
 import (
 	"fmt"
+	"log"
 	"time"
 	"testing"
 	"net/url"
@@ -32,18 +33,34 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+// queryDB convenience function to query the database
+func queryDB(con *client.Client, cmd string) (res []client.Result, err error) {
+	q := client.Query{
+		Command:  cmd,
+		Database: "testing",
+	}
+	if response, err := con.Query(q); err == nil {
+		if response.Error() != nil {
+			return res, response.Error()
+		}
+		res = response.Results
+	}
+	return
+}
+
 func TestSpec(t *testing.T) {
 
 	// setup (run before each `Convey` at this scope):
 	fmt.Println("Connect to the InfluxDB Server")
 
 	Convey("Play with the bubbles", t, func() {
-
+		
 		// setup (run before each `Convey` at this scope):
 		fmt.Println("Create a new database")
 		host, err := url.Parse(fmt.Sprintf("http://%s:%d", "localhost", 8086))
-		So(err, ShouldBeNil)
 		con, err := client.NewClient(client.Config{URL: *host})
+		_, err = queryDB(con, fmt.Sprintf("create database %s", "testing"))
+
 		So(err, ShouldBeNil)
 
 		Convey("Create many series", func() {
@@ -75,7 +92,7 @@ func TestSpec(t *testing.T) {
 
 				bps := client.BatchPoints{
 					Points:          pts,
-					Database:        "BumbeBeeTuna",
+					Database:        "testing",
 					RetentionPolicy: "default",
 				}
 				_, err = con.Write(bps)
@@ -84,11 +101,13 @@ func TestSpec(t *testing.T) {
 				Convey("Select the series", func() {
 					q := client.Query{
 						Command:  "select count(value) from shapes",
-						Database: "BumbeBeeTuna",
+						Database: "testing",
 					}
-					response, err := con.Query(q);
-					if err == nil && response.Error() == nil {
-						fmt.Println(len(response.Results))
+
+					if response, err := con.Query(q); err == nil && response.Error() == nil {
+						res := response.Results
+						count := res[0].Series[0].Values[0][1]
+						log.Println(count)
 					}
 				})
 
