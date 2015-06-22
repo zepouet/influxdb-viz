@@ -26,6 +26,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"html/template"
+	"github.com/influxdb/influxdb-viz/configuration"
 )
 
 const (
@@ -34,13 +35,20 @@ const (
 )
 
 type HomepageController struct {
+	InfluxConfig configuration.InfluxConfig
 }
 
 func (b *HomepageController) Run(router *gin.Engine) {
+
+	seriesResources := &SeriesResources{InfluxConfig:b.InfluxConfig}
+
 	// bubbles page
 	router.GET("/", func(c *gin.Context) {
 		obj := gin.H{"title": "HomePage"}
 		router.SetHTMLTemplate(template.Must(template.ParseFiles(TEMPLATE_MAIN, TEMPLATE_INDEX)))
 		c.HTML(http.StatusOK, "base", obj)
 	})
+
+	// return json flares format for d3js
+	router.GET("/series.json", seriesResources.ListAll)
 }

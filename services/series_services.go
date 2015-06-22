@@ -20,47 +20,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-package main
+package services
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/influxdb/influxdb-viz/controllers"
+	"fmt"
+	"log"
+	"net/url"
+	"github.com/influxdb/influxdb-viz/models"
 	"github.com/influxdb/influxdb-viz/configuration"
+	"github.com/influxdb/influxdb/client"
 )
 
-const (
-	STATIC           = "static/"
-	STATIC_JS        = STATIC + "js"
-	STATIC_CSS       = STATIC + "css"
-	STATIC_IMAGES    = STATIC + "images"
-	STATIC_TAGS    	 = STATIC + "tags"
-	STATIC_JSON      = STATIC + "json"
-)
+type SeriesServices struct {
+	InfluxConfig configuration.InfluxConfig
+}
 
-func main() {
+func (br *SeriesServices) ListAll() models.Serie {
+	serie := models.Serie{Name:"shapes"}
 
-	// read the configuration and exits if necessary
-	influxConfig := &configuration.InfluxConfig{}
-	influxConfig.Init()
-	influxConfig.Verify()
+	fmt.Printf("http://%s:%d", br.InfluxConfig.InfluxDbHost, br.InfluxConfig.InfluxDbPort)
 
-	// initialise the web engine
-	router := gin.Default()
+	host, err := url.Parse(fmt.Sprintf("http://%s:%d", br.InfluxConfig.InfluxDbHost, br.InfluxConfig.InfluxDbPort))
+	if err != nil {
+		log.Fatal(err)
+	}
+	con, err := client.NewClient(client.Config{URL: *host, Username:"root", Password:"root"})
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// create routes for all static files
-	router.Static("/images", STATIC_IMAGES)
-	router.Static("/js", STATIC_JS)
-	router.Static("/css", STATIC_CSS)
-	router.Static("/json", STATIC_JSON)
-	router.Static("/tags", STATIC_TAGS)
+	q := client.Query{
+		Command:  "show series",
+		Database: "testing",
+	}
+	response, err := con.Query(q)
+	if err == nil && response.Error() == nil {
+		res := response.Results
+		log.Println(res[0])
+		//count := res[0].Series[0].Values[0][1]
+	} else {
+		log.Println(err)
+	}
 
-	// add route for index page
-	homepageController := &controllers.HomepageController{*influxConfig}
-	homepageController.Run(router)
-
-	// add routes for bubbles
-	bubbleController := &controllers.BubbleController{*influxConfig}
-	bubbleController.Run(router)
-
-	router.Run(":8080")
+	return serie
 }
